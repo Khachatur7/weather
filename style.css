@@ -121,3 +121,7 @@ h3 {
     align-items: center;
     gap: 5px;
 }
+
+.region{
+    margin: 15px 5px 0px 0px;
+}
