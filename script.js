@@ -61,6 +61,7 @@ function showResult(res) {
           <img src="images/visibility.svg" alt="visibility" /> <span>${data.vis_km}</span>km
         </div>
       </div>
+      <div class="region"><span>${location.name} in ${location.region} (${location.country})</span></div>
     </div>`
     weather_content.innerHTML = child
 }
