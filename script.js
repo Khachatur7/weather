@@ -31,11 +31,12 @@ function fetchWeather() {
 
 function showResult(res) {
     console.log(res);
+  let location = res.location
   let data = res.current
     let temp = data.temp_c > 0 ? "+" + data.temp_c : data.temp_c
     wind = `${Math.floor(data.wind_kph / 3.6)} m/s, ${data.wind_dir}`
 
-    let child = `<div class="city" id="city"><span>Weather in ${res.location.name}</span></div>
+    let child = `<div class="city" id="city"><span>Weather in ${location.name}</span></div>
     <div class="weather">
       <div class="temp">
         <div class="temp_num" id="temp_num">${temp}<span class="cricle">°</span>C</div>
