@@ -19,29 +19,32 @@ let weather_icons = [
 ]
 
 function fetchWeather() {
-    let resUrl = url + `?key=${api_key}&q=${search_city.value}`;
+  let resUrl = url + `?key=${api_key}&q=${search_city.value}`;
+  let time = Math.floor(Math.random() * (2000 - 800) + 800)
+  weather_content.innerHTML = '<div class="loading"></div>'
+  setTimeout(() => {
     fetch(resUrl)
-        .then((res) => res.json())
-        .then((res) => showResult(res))
-        .catch((err) => {
-            weather_content.innerHTML = '<h3>Not found<h3/>';
-            console.log(err);
-        });
+      .then((res) => res.json())
+      .then((res) => showResult(res))
+      .catch((err) => {
+        weather_content.innerHTML = '<h3>Not found<h3/>';
+        console.log(err);
+      });
+  }, time);
 }
 
 function showResult(res) {
-    console.log(res);
   let location = res.location
   let data = res.current
-    let temp = data.temp_c > 0 ? "+" + data.temp_c : data.temp_c
-    wind = `${Math.floor(data.wind_kph / 3.6)} m/s, ${data.wind_dir}`
+  let temp = data.temp_c > 0 ? "+" + data.temp_c : data.temp_c
+  wind = `${Math.floor(data.wind_kph / 3.6)} m/s, ${data.wind_dir}`
 
-    let child = `<div class="city" id="city"><span>Weather in ${location.name}</span></div>
+  let child = `<div class="city" id="city"><span>Weather in ${location.name}</span></div>
     <div class="weather">
       <div class="temp">
         <div class="temp_num" id="temp_num">${temp}<span class="cricle">°</span>C</div>
         <div class="icon" id="icon">
-          <img src="images/${weather_icons.includes(data.condition.text)?data.condition.text:data.condition.icon}.svg" alt="" />
+          <img src="images/${weather_icons.includes(data.condition.text) ? data.condition.text : data.condition.icon}.svg" alt="" />
         </div>
         <div class="cond_feels" id="cond_feels">
           <span>${data.condition.text}</span>
@@ -64,8 +67,8 @@ function showResult(res) {
       </div>
       <div class="region"><span>${location.name} in ${location.region} (${location.country})</span></div>
     </div>`
-    weather_content.innerHTML = child
+  weather_content.innerHTML = child
 }
 
 search_bttn.addEventListener("click", fetchWeather);
-
+document.addEventListener("keydown", () => event.key == "Enter" ? fetchWeather() : 0)
