@@ -125,3 +125,24 @@ h3 {
 .region{
     margin: 15px 5px 0px 0px;
 }
+.loading{
+    position: absolute;
+    top: 25%;
+    left: 45%;
+    width: 40px;
+    height: 40px;
+    background: none;
+    border: 6px solid #ffffff; 
+    border-radius: 50%;
+    border-top: 6px solid #b6b6b6;
+    animation: loading 0.7s ease-in forwards infinite;
+}
+
+@keyframes loading {
+    from{
+        transform: rotate(0deg);
+    }
+    to{
+        transform: rotate(360deg);
+    }
+}
