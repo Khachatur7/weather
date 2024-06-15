@@ -1,8 +1,10 @@
 const api_key = "b9b90817d4a049c6ae7102853242703";
 const url = `http://api.weatherapi.com/v1/current.json`;
+const auto_complete = 'http://api.weatherapi.com/v1/search.json'
 let weather_content = document.getElementById("weather_content")
-let search_city = document.getElementById("search_city");
+let search_input = document.getElementById("search_input");
 let search_bttn = document.getElementById("search_bttn");
+let sim_city_list = document.getElementById("sim_city_list")
 let weather_icons = [
   "Sunny",
   "Clear",
@@ -18,8 +20,10 @@ let weather_icons = [
   "Snow"
 ]
 
-function fetchWeather() {
-  let resUrl = url + `?key=${api_key}&q=${search_city.value}`;
+function fetchWeather(city) {
+  sim_city_list.innerHTML = ''
+  search_input.value = ''
+  let resUrl = url + `?key=${api_key}&q=${city.toLowerCase()}`;
   let time = Math.floor(Math.random() * (2000 - 800) + 800)
   weather_content.innerHTML = '<div class="loading"></div>'
   setTimeout(() => {
@@ -31,6 +35,49 @@ function fetchWeather() {
         console.log(err);
       });
   }, time);
+  return true
+}
+
+function ChooseCityFromList() {
+  if (sim_city_list.children) {
+    let city_array = document.querySelectorAll(".sim_city_item")
+    city_array.forEach(city => {
+      city.addEventListener('click', () => fetchWeather(search_input.value.trim()))
+    });
+  }
+  return true
+}
+
+function SearchWithAutoComplete(value) {
+
+  let resUrl = auto_complete + `?key=${api_key}&q=${value}`
+  if (value.length >= 2) {
+    fetch(resUrl).then(res => res.json())
+      .then(res => {
+        if (res.length >= 1) {
+          sim_city_list.innerHTML = ''
+          res.forEach(el => {
+            let child = document.createElement("div")
+            child.className = 'sim_city_item'
+            child.id = el.name
+            child.innerHTML = ` <div class="similar_city"><span>${el.name}</span></div>
+             <div class="sim_country"><span>${el.country}</span></div>`
+
+            sim_city_list.append(child)
+          });
+          ChooseCityFromList()
+        }
+        else {
+          sim_city_list.innerHTML = ''
+        }
+
+      }).catch(er => console.log(er))
+  }
+  else if (value.length <= 2) {
+    return sim_city_list.innerHTML = ''
+  }
+
+  return true
 }
 
 function showResult(res) {
@@ -70,5 +117,6 @@ function showResult(res) {
   weather_content.innerHTML = child
 }
 
-search_bttn.addEventListener("click", fetchWeather);
-document.addEventListener("keydown", () => event.key == "Enter" ? fetchWeather() : 0)
+search_bttn.addEventListener("click", () => fetchWeather(search_input.value.trim()));
+document.addEventListener("keydown", (event) => event.key == "Enter" ? fetchWeather(search_input.value.trim()) : 0)
+search_input.addEventListener("input", () => SearchWithAutoComplete(search_input.value.trim()))
