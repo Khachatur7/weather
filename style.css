@@ -42,7 +42,12 @@ h3 {
     text-shadow: none;
 }
 
-#search_city {
+.search_container {
+    position: relative;
+    width: 100%;
+}
+
+#search_input {
     all: unset;
     outline: none;
     width: 300px;
@@ -68,6 +73,41 @@ h3 {
     align-items: center;
     cursor: pointer;
     transition: 0.3s ease-in;
+}
+
+.sim_city_list {
+    position: absolute;
+    top: 37px;
+    left: 120px;
+    max-height: 150px;
+    overflow-y:auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none
+}
+
+.sim_city_item {
+    padding: 5px 0px 5px 5px;
+    width: 300px;
+    transition: 0.1s ease-in-out;
+    background: #fff;
+    color: #222222;
+    text-shadow: none;
+    border-top: 1px solid #cccccc;
+    cursor: pointer;
+}
+
+.similar_city {
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.sim_country {
+    font-weight: 400;
+    color: #5a5a5a;
+}
+
+.sim_city_item:hover {
+    background: #f7f7f7;
 }
 
 .city {
@@ -124,27 +164,31 @@ h3 {
     gap: 5px;
 }
 
-.region{
+.region {
     margin: 15px 5px 0px 0px;
 }
-.loading{
+
+
+
+.loading {
     position: absolute;
     top: 25%;
     left: 45%;
     width: 40px;
     height: 40px;
     background: none;
-    border: 6px solid #ffffff; 
+    border: 6px solid #ffffff;
     border-radius: 50%;
     border-top: 6px solid #b6b6b6;
     animation: loading 0.7s ease-in forwards infinite;
 }
 
 @keyframes loading {
-    from{
+    from {
         transform: rotate(0deg);
     }
-    to{
+
+    to {
         transform: rotate(360deg);
     }
 }
